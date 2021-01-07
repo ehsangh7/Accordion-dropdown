@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {Data} from './Data';
 import {IconContext} from 'react-icons'
 import { FiPlus, FiMinus } from 'react-icons/fi'
+import {motion} from 'framer-motion'
 
 
 const AccordionSection = styled.div`
@@ -38,7 +39,8 @@ const Wrap = styled.div`
     };
 `;
 
-const Dropdown = styled.div`
+const Dropdown = styled(motion.div)`
+    
     background: #00ffb9;
     width: 100%;
     height: 100px;
@@ -49,8 +51,9 @@ const Dropdown = styled.div`
     border-bottom: 5px solid #272727;
     border-left: 5px solid #272727;
     border-right: 5px solid #272727;
-    margin-bottom: 1px;
     border-radius: 0px 0px 20px 20px;
+   
+    
 
     p{
         font-size: 2rem;
@@ -71,6 +74,16 @@ const Accordion = () => {
         setClicked(index)
     }
 
+    const drop = {
+        hidden: {
+            opacity: 0, y:-50, 
+        },
+        visible: {
+            opacity:1, y:0, 
+            transition:{duration:0.5 ,delay:0.1}
+        }
+    }
+
     return (
         <div>
             <IconContext.Provider value={{color: '#00FFB9',
@@ -85,7 +98,10 @@ const Accordion = () => {
                                     <span>{clicked === index ? <FiMinus /> : <FiPlus />}</span>
                                 </Wrap>
                             {clicked === index ? (
-                                <Dropdown>
+                                <Dropdown
+                                    variants={drop}
+                                    initial="hidden"
+                                    animate="visible">
                                 <p>{item.answer}</p>
                                 </Dropdown>
                             ): null}
